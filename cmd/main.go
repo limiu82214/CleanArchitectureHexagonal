@@ -10,6 +10,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	company_gin_adapter_in "github.com/limiu82214/CleanArchitectureHexagonal/internal/company/adapter/in/gin"
+	company_application "github.com/limiu82214/CleanArchitectureHexagonal/internal/company/application"
 	"github.com/limiu82214/CleanArchitectureHexagonal/pkg/sig"
 )
 
@@ -26,8 +27,9 @@ func main() {
 	{ // 初始化
 		v1 := r.Group("/")
 		{
-			NCGA := company_gin_adapter_in.NewCompanyGinAdapter()
-			v1.GET("get_siteinfo", NCGA.GetSiteInfo)
+			GSI := company_application.NewGetSiteInfo()
+			CGA := company_gin_adapter_in.NewCompanyGinAdapter(GSI)
+			v1.GET("get_siteinfo", CGA.GetSiteInfo)
 			v1.GET("ping", func(ctx *gin.Context) {
 				ctx.JSON(http.StatusOK, gin.H{
 					"message": "pong",
