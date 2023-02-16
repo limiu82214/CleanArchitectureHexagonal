@@ -12,3 +12,4 @@ v1: 連結main.go與company_gin_adapter.go
 v2: 連結company_gin_adapter.go與get_site_info_service.go (透過port.in get_site_info_usecase
     `http://localhost:8080/get_siteinfo?site_id=1`
     `http://localhost:8080/get_siteinfo?site_id=2`
+v3: get_site_info_service.go使用domain的site.go的field

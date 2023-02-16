@@ -2,6 +2,7 @@ package company_application
 
 import (
 	company_application_port_in "github.com/limiu82214/CleanArchitectureHexagonal/internal/company/application/port/in"
+	company_domain "github.com/limiu82214/CleanArchitectureHexagonal/internal/company/domain"
 )
 
 type getSiteInfo struct {
@@ -14,11 +15,14 @@ func NewGetSiteInfo() company_application_port_in.IGetSiteInfoUserCase {
 func (gst *getSiteInfo) GetSiteInfo(siteID int) string {
 	switch siteID {
 	case 1:
-		return "site_name"
+		s := &company_domain.Site{Id: 1, SiteName: "site_name"}
+		return s.SiteName
 	case 2:
-		return "site_name2"
+		s := &company_domain.Site{Id: 1, SiteName: "site_name2"}
+		return s.SiteName
 	case 3:
-		return "site_name3"
+		s := &company_domain.Site{Id: 1, SiteName: "site_name2"}
+		return s.SiteName
 	}
 	return "error"
 }
