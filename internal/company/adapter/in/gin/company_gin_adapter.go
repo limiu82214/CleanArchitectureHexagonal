@@ -9,12 +9,12 @@ import (
 )
 
 type companyGinAdapter struct {
-	getSiteInfoService company_application_port_in.IGetSiteInfoUserCase
+	getSiteInfoUseCase company_application_port_in.IGetSiteInfoUserCase
 }
 
-func NewCompanyGinAdapter(getSiteInfoService company_application_port_in.IGetSiteInfoUserCase) *companyGinAdapter {
+func NewCompanyGinAdapter(getSiteInfoUseCase company_application_port_in.IGetSiteInfoUserCase) *companyGinAdapter {
 	return &companyGinAdapter{
-		getSiteInfoService: getSiteInfoService,
+		getSiteInfoUseCase: getSiteInfoUseCase,
 	}
 }
 
@@ -28,6 +28,6 @@ func (cga *companyGinAdapter) GetSiteInfo(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{
-		"message": cga.getSiteInfoService.GetSiteInfo(siteId),
+		"message": cga.getSiteInfoUseCase.GetSiteInfo(siteId),
 	})
 }
