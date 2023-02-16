@@ -10,7 +10,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 	company_gin_adapter_in "github.com/limiu82214/CleanArchitectureHexagonal/internal/company/adapter/in/gin"
+	company_leveldb_adapter_out "github.com/limiu82214/CleanArchitectureHexagonal/internal/company/adapter/out/leveldb"
 	company_application "github.com/limiu82214/CleanArchitectureHexagonal/internal/company/application"
+	"github.com/limiu82214/CleanArchitectureHexagonal/pkg/leveldb"
 	"github.com/limiu82214/CleanArchitectureHexagonal/pkg/sig"
 )
 
@@ -27,7 +29,9 @@ func main() {
 	{ // 初始化
 		v1 := r.Group("/")
 		{
-			GSI := company_application.NewGetSiteInfo()
+			db := leveldb.GetInst()
+			CLA := company_leveldb_adapter_out.NewCompanyGinAdapter(db)
+			GSI := company_application.NewGetSiteInfo(CLA)
 			CGA := company_gin_adapter_in.NewCompanyGinAdapter(GSI)
 			v1.GET("get_siteinfo", CGA.GetSiteInfo)
 			v1.GET("ping", func(ctx *gin.Context) {
