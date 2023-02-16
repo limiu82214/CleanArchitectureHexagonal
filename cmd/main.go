@@ -9,19 +9,12 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	company_gin_adapter_in "github.com/limiu82214/CleanArchitectureHexagonal/internal/company/adapter/in/gin"
 	"github.com/limiu82214/CleanArchitectureHexagonal/pkg/sig"
 )
 
 func main() {
 	fmt.Println("Hello")
-	// v1 := r.Group("/")
-	// {
-	// 	v1.GET("pin", func(ctx *gin.Context) {
-	// 		ctx.JSON(http.StatusOK, gin.H{
-	// 			"message": "pong",
-	// 		})
-	// 	})
-	// }
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
 	defer cancel()
 
@@ -33,6 +26,8 @@ func main() {
 	{ // 初始化
 		v1 := r.Group("/")
 		{
+			NCGA := company_gin_adapter_in.NewCompanyGinAdapter()
+			v1.GET("get_siteinfo", NCGA.GetSiteInfo)
 			v1.GET("ping", func(ctx *gin.Context) {
 				ctx.JSON(http.StatusOK, gin.H{
 					"message": "pong",
