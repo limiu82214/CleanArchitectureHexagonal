@@ -15,15 +15,7 @@ func NewGetSiteInfo(loadCompanyPort company_application_port_out.ILoadCompanyPor
 	}
 }
 
-func (gsi *getSiteInfo) GetSiteInfo(siteID int) string {
-	s := gsi.loadCompanyPort.GetSite(siteID)
-	switch siteID {
-	case 1:
-		return s.SiteName
-	case 2:
-		return s.SiteName
-	case 3:
-		return s.SiteName
-	}
-	return "error"
+func (gsi *getSiteInfo) GetSiteInfo(gsic company_application_port_in.GetSiteInfoCommand) string {
+	s := gsi.loadCompanyPort.GetSite(gsic.SiteID)
+	return s.SiteName
 }
