@@ -8,11 +8,14 @@ import (
 	"github.com/limiu82214/CleanArchitectureHexagonal/internal/company/application/port/in"
 )
 
+type ICompanyGinAdapter interface {
+	GetSiteInfo(ctx *gin.Context)
+}
 type companyGinAdapter struct {
 	getSiteInfoUseCase in.IGetSiteInfoUserCase
 }
 
-func NewCompanyGinAdapter(getSiteInfoUseCase in.IGetSiteInfoUserCase) *companyGinAdapter {
+func NewCompanyGinAdapter(getSiteInfoUseCase in.IGetSiteInfoUserCase) ICompanyGinAdapter {
 	return &companyGinAdapter{
 		getSiteInfoUseCase: getSiteInfoUseCase,
 	}
