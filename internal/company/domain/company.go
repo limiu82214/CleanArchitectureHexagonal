@@ -1,4 +1,4 @@
-package company_domain
+package domain
 
 type Company struct {
 }

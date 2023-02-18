@@ -1,21 +1,21 @@
-package company_application
+package application
 
 import (
-	company_application_port_in "github.com/limiu82214/CleanArchitectureHexagonal/internal/company/application/port/in"
-	company_application_port_out "github.com/limiu82214/CleanArchitectureHexagonal/internal/company/application/port/out"
+	"github.com/limiu82214/CleanArchitectureHexagonal/internal/company/application/port/in"
+	"github.com/limiu82214/CleanArchitectureHexagonal/internal/company/application/port/out"
 )
 
 type getSiteInfo struct {
-	loadCompanyPort company_application_port_out.ILoadCompanyPort
+	loadCompanyPort out.ILoadCompanyPort
 }
 
-func NewGetSiteInfo(loadCompanyPort company_application_port_out.ILoadCompanyPort) company_application_port_in.IGetSiteInfoUserCase {
+func NewGetSiteInfo(loadCompanyPort out.ILoadCompanyPort) in.IGetSiteInfoUserCase {
 	return &getSiteInfo{
 		loadCompanyPort: loadCompanyPort,
 	}
 }
 
-func (gsi *getSiteInfo) GetSiteInfo(gsic company_application_port_in.GetSiteInfoCommand) string {
+func (gsi *getSiteInfo) GetSiteInfo(gsic in.GetSiteInfoCommand) string {
 	s := gsi.loadCompanyPort.GetSite(gsic.SiteID)
 	return s.SiteName
 }

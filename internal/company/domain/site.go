@@ -1,4 +1,4 @@
-package company_domain
+package domain
 
 type Site struct {
 	Id       int

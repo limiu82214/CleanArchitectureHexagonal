@@ -1,4 +1,4 @@
-package company_application_port_in
+package in
 
 import "fmt"
 

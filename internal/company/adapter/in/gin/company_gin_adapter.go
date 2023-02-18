@@ -1,25 +1,25 @@
-package company_gin_adapter_in
+package gin
 
 import (
 	"net/http"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	company_application_port_in "github.com/limiu82214/CleanArchitectureHexagonal/internal/company/application/port/in"
+	"github.com/limiu82214/CleanArchitectureHexagonal/internal/company/application/port/in"
 )
 
 type companyGinAdapter struct {
-	getSiteInfoUseCase company_application_port_in.IGetSiteInfoUserCase
+	getSiteInfoUseCase in.IGetSiteInfoUserCase
 }
 
-func NewCompanyGinAdapter(getSiteInfoUseCase company_application_port_in.IGetSiteInfoUserCase) *companyGinAdapter {
+func NewCompanyGinAdapter(getSiteInfoUseCase in.IGetSiteInfoUserCase) *companyGinAdapter {
 	return &companyGinAdapter{
 		getSiteInfoUseCase: getSiteInfoUseCase,
 	}
 }
 
 func (cga *companyGinAdapter) GetSiteInfo(ctx *gin.Context) {
-	siteId, err := strconv.Atoi(ctx.DefaultQuery("site_id", "1"))
+	siteID, err := strconv.Atoi(ctx.DefaultQuery("site_id", "1"))
 	if err != nil {
 		ctx.JSON(http.StatusOK, gin.H{
 			"message": err.Error(),
@@ -27,8 +27,8 @@ func (cga *companyGinAdapter) GetSiteInfo(ctx *gin.Context) {
 		return
 	}
 
-	getSiteInfoCommand := company_application_port_in.GetSiteInfoCommand{
-		SiteID: siteId,
+	getSiteInfoCommand := in.GetSiteInfoCommand{
+		SiteID: siteID,
 	}
 	ctx.JSON(http.StatusOK, gin.H{
 		"message": cga.getSiteInfoUseCase.GetSiteInfo(getSiteInfoCommand),
