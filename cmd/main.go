@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"errors"
-	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -17,14 +16,19 @@ import (
 )
 
 func main() {
-	fmt.Println("Hello")
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
+	log.Println("Hello")
+
+	contextTimeoutSec := 5
+	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(contextTimeoutSec)*time.Second)
+
 	defer cancel()
 
 	r := gin.Default()
+	readTimeoutSec := 3
 	srv := &http.Server{
-		Addr:    ":8080",
-		Handler: r,
+		Addr:        ":8080",
+		Handler:     r,
+		ReadTimeout: time.Duration(readTimeoutSec) * time.Second,
 	}
 	{ // 初始化
 		v1 := r.Group("/")
@@ -44,17 +48,20 @@ func main() {
 			if err := srv.ListenAndServe(); err != nil && errors.Is(err, http.ErrServerClosed) {
 				log.Printf("listen: %s\n", err)
 			}
-			r.Run(":8080")
+			errRoutine := r.Run(":8080")
+			if errRoutine != nil {
+				sig.ShutdownServer(errRoutine)
+			}
 		})()
 	}
 
 	sig.ServerNotify()
 	log.Println("伺服器開始關閉...")
 
-	{ // 關閉服務
-		if err := srv.Shutdown(ctx); err != nil {
-			log.Fatalln("伺服器錯誤退出:", err)
-		}
+	// 關閉服務
+	if err := srv.Shutdown(ctx); err != nil {
+		log.Println("伺服器錯誤退出:", err)
 	}
+
 	log.Println("伺服器正常運行結束")
 }

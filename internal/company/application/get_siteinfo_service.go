@@ -17,5 +17,6 @@ func NewGetSiteInfo(loadCompanyPort out.ILoadCompanyPort) in.IGetSiteInfoUserCas
 
 func (gsi *getSiteInfo) GetSiteInfo(gsic in.GetSiteInfoCommand) string {
 	s := gsi.loadCompanyPort.GetSite(gsic.SiteID)
+
 	return s.SiteName
 }

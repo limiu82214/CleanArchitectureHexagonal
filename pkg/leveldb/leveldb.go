@@ -5,21 +5,23 @@ import (
 	level_db "github.com/syndtr/goleveldb/leveldb"
 )
 
-var db *level_db.DB
+var db_once *level_db.DB //nolint // signletone use name with _
 var err error
 
 func GetInst() *level_db.DB {
-	if db != nil {
-		return db
+	if db_once != nil {
+		return db_once
 	}
-	db, err = level_db.OpenFile("../assets/leveldb/member", nil)
+
+	db_once, err = level_db.OpenFile("../assets/leveldb/member", nil)
 	if err != nil {
 		sig.ShutdownServer(err)
 	}
-	return db
+
+	return db_once
 }
 func DisconnectDB() {
-	if db != nil {
-		db.Close()
+	if db_once != nil {
+		db_once.Close()
 	}
 }

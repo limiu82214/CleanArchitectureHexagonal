@@ -7,18 +7,18 @@ import (
 	"syscall"
 )
 
-var ServerSigChan chan os.Signal
+var serverSigChan_once chan os.Signal //nolint //singletone
 
-func init() {
-	ServerSigChan = make(chan os.Signal)
+func init() { //nolint //whole system will use one of this
+	serverSigChan_once = make(chan os.Signal)
 }
 
 func ServerNotify() {
-	signal.Notify(ServerSigChan, syscall.SIGINT, syscall.SIGTERM)
-	<-ServerSigChan
+	signal.Notify(serverSigChan_once, syscall.SIGINT, syscall.SIGTERM)
+	<-serverSigChan_once
 }
 
 func ShutdownServer(err error) {
 	log.Println(err)
-	ServerSigChan <- os.Interrupt
+	serverSigChan_once <- os.Interrupt
 }

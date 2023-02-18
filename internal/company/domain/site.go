@@ -1,6 +1,6 @@
 package domain
 
 type Site struct {
-	Id       int
+	ID       int
 	SiteName string
 }

@@ -24,12 +24,14 @@ func (cga *companyGinAdapter) GetSiteInfo(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, gin.H{
 			"message": err.Error(),
 		})
+
 		return
 	}
 
 	getSiteInfoCommand := in.GetSiteInfoCommand{
 		SiteID: siteID,
 	}
+
 	ctx.JSON(http.StatusOK, gin.H{
 		"message": cga.getSiteInfoUseCase.GetSiteInfo(getSiteInfoCommand),
 	})
