@@ -13,7 +13,7 @@ type companyLevelDBAdapter struct {
 	db *leveldb.DB
 }
 
-func NewCompanyGinAdapter(db *leveldb.DB) out.ILoadCompanyPort {
+func NewCompanyLevelDBAdapter(db *leveldb.DB) out.ILoadCompanyPort {
 	return &companyLevelDBAdapter{
 		db: db,
 	}

@@ -34,7 +34,7 @@ func main() {
 		v1 := r.Group("/")
 		{
 			db := leveldb.GetInst()
-			CLA := company_leveldb_adapter_out.NewCompanyGinAdapter(db)
+			CLA := company_leveldb_adapter_out.NewCompanyLevelDBAdapter(db)
 			GSI := company_application.NewGetSiteInfo(CLA)
 			CGA := company_gin_adapter_in.NewCompanyGinAdapter(GSI)
 			v1.GET("get_siteinfo", CGA.GetSiteInfo)
